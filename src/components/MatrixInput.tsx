@@ -24,7 +24,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
   return (
     <div className="matrix-input">
       <div className="matrix-input-header">
-        <h2>ID: {item.id}</h2>
+        {"rows" in item && "columns" in item ? <h2>行列</h2> : <h2>文字</h2>}
         <button onClick={() => onDelete()}>削除</button>
       </div>
 

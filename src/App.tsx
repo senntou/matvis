@@ -3,8 +3,15 @@ import OutputHandler from "./components/OutputHandler";
 import MatrixInput from "./components/MatrixInput";
 import { MatrixOrChar } from "./types/types";
 
+const INITIAL_ITEMS: MatrixOrChar[] = [
+  { id: -1, rows: 4, columns: 4, name: "U" },
+  { id: -2, char: "=", verticalAlignment: "middle" },
+  { id: -3, rows: 4, columns: 2, name: "V" },
+  { id: -4, rows: 2, columns: 4, name: "W", verticalAlignment: "top" },
+];
+
 function App() {
-  const [items, setItems] = useState<MatrixOrChar[]>([]);
+  const [items, setItems] = useState<MatrixOrChar[]>(INITIAL_ITEMS);
   const [nextId, setNextId] = useState<number>(1);
 
   const handleAddMatrix = () => {
