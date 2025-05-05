@@ -52,13 +52,22 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let currentX = RECT_MARGIN;
+    const centerY = canvasSize.height / 2;
 
     matrices.forEach((item, index) => {
-      const y = RECT_MARGIN;
-
       if ("rows" in item && "columns" in item) {
         const rectWidth = item.columns * RECT_SCALE;
         const rectHeight = item.rows * RECT_SCALE;
+
+        let y = centerY - rectHeight / 2;
+        switch (item.verticalAlignment) {
+          case "top":
+            y = RECT_MARGIN;
+            break;
+          case "bottom":
+            y = canvasSize.height - rectHeight - RECT_MARGIN;
+            break;
+        }
 
         ctx.strokeStyle = RECT_COLOR;
         ctx.lineWidth = 2;
@@ -78,6 +87,16 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
       } else if ("char" in item) {
         const boxWidth = RECT_SCALE;
         const boxHeight = RECT_SCALE;
+
+        let y = centerY - boxHeight / 2;
+        switch (item.verticalAlignment) {
+          case "top":
+            y = RECT_MARGIN;
+            break;
+          case "bottom":
+            y = canvasSize.height - boxHeight - RECT_MARGIN;
+            break;
+        }
 
         ctx.strokeStyle = RECT_COLOR;
         // ctx.strokeRect(currentX, y, boxWidth, boxHeight);

@@ -6,7 +6,12 @@ interface MatrixInputProps {
   onSizeChange: (id: number, type: "rows" | "columns", value: number) => void;
   onNameChange: (id: number, name: string) => void;
   onCharChange: (id: number, char: string) => void;
+  onAlignmentChange: (
+    id: number,
+    alignment: "top" | "middle" | "bottom",
+  ) => void;
   onEnter: () => void;
+  onDelete: () => void;
 }
 
 const MatrixInput: React.FC<MatrixInputProps> = ({
@@ -14,7 +19,9 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
   onSizeChange,
   onNameChange,
   onCharChange,
+  onAlignmentChange,
   onEnter,
+  onDelete,
 }) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -24,7 +31,23 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
 
   return (
     <div className="matrix-input">
-      <h2>ID: {item.id}</h2>
+      <div className="matrix-input-header">
+        <h2>ID: {item.id}</h2>
+        <button onClick={() => onDelete()}>削除</button>
+      </div>
+
+      <label>
+        垂直方向の配置:
+        <select
+          value={item.verticalAlignment || "middle"}
+          onChange={(e) => onAlignmentChange(item.id, e.target.value)}
+        >
+          <option value="top">上</option>
+          <option value="middle">中央</option>
+          <option value="bottom">下</option>
+        </select>
+      </label>
+
       {"rows" in item && "columns" in item ? (
         <>
           <label>

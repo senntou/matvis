@@ -10,9 +10,19 @@
   gap: 0.5rem;
 }
 
+.input-list {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .border {
   border: 1px solid #ccc;
   padding: 0.5rem;
   width: fit-content;
   height: fit-content;
+}
+
+.matrix-input-header {
+  display: flex;
+  gap: 0.5rem;
 }

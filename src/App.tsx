@@ -51,29 +51,39 @@ function App() {
     );
   };
 
+  const handleAlignmentChange = (
+    id: number,
+    alignment: "top" | "middle" | "bottom",
+  ) => {
+    setItems(
+      items.map((item) =>
+        ("rows" in item || "char" in item) && item.id === id
+          ? { ...item, verticalAlignment: alignment }
+          : item,
+      ),
+    );
+  };
+
   return (
     <div className="App">
       <h1>行列ビジュアライザー</h1>
       <button onClick={handleAddMatrix}>行列を追加</button>
       <button onClick={handleAddChar}>文字を追加</button>
       <button onClick={handleOutput}>出力</button>
-      {items.map((item) => (
-        <>
+      <div className="input-list">
+        {items.map((item) => (
           <MatrixInput
             key={item.id}
             item={item}
             onSizeChange={handleSizeChange}
             onNameChange={handleNameChange}
             onCharChange={handleCharChange}
+            onAlignmentChange={handleAlignmentChange}
             onEnter={handleOutput}
+            onDelete={() => setItems(items.filter((i) => i.id !== item.id))}
           />
-          <button
-            onClick={() => setItems(items.filter((i) => i.id !== item.id))}
-          >
-            削除
-          </button>
-        </>
-      ))}
+        ))}
+      </div>
       <h2>出力</h2>
       {itemsOutput.length > 0 && <OutputHandler matrices={itemsOutput} />}
     </div>
