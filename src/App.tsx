@@ -67,10 +67,24 @@ function App() {
 
   return (
     <div className="App">
-      <h1>行列ビジュアライザー</h1>
-      <button onClick={handleAddMatrix}>行列を追加</button>
-      <button onClick={handleAddChar}>文字を追加</button>
-      <div className="input-list">
+      <h1 className="text-3xl font-bold text-center my-4">
+        行列ビジュアライザー
+      </h1>
+
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
+        onClick={handleAddMatrix}
+      >
+        行列を追加
+      </button>
+      <button
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+        onClick={handleAddChar}
+      >
+        文字を追加
+      </button>
+
+      <div className="flex gap-1">
         {items.map((item) => (
           <MatrixInput
             key={item.id}
@@ -83,7 +97,7 @@ function App() {
           />
         ))}
       </div>
-      <h2>出力</h2>
+      <h2 className="text-2xl font-bold my-4">出力</h2>
       {items.length > 0 && <OutputHandler matrices={items} />}
     </div>
   );

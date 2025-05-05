@@ -22,15 +22,25 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
   onDelete,
 }) => {
   return (
-    <div className="matrix-input">
-      <div className="matrix-input-header">
-        {"rows" in item && "columns" in item ? <h2>行列</h2> : <h2>文字</h2>}
-        <button onClick={() => onDelete()}>削除</button>
+    <div className="matrix-input p-4 border rounded-lg shadow-md bg-white">
+      <div className="flex justify-between items-center mb-4">
+        {"rows" in item && "columns" in item ? (
+          <h2 className="text-lg font-semibold">行列</h2>
+        ) : (
+          <h2 className="text-lg font-semibold">文字</h2>
+        )}
+        <button
+          className="h-8 w-16 bg-red-500 text-white flex items-center justify-center"
+          onClick={() => onDelete()}
+        >
+          削除
+        </button>
       </div>
 
-      <label>
+      <label className="block mb-2">
         垂直方向の配置:
         <select
+          className="ml-2 p-1 border rounded"
           value={item.verticalAlignment || "middle"}
           onChange={(e) =>
             onAlignmentChange(
@@ -47,18 +57,20 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
 
       {"rows" in item && "columns" in item ? (
         <>
-          <label>
+          <label className="block mb-2">
             名前:
             <input
+              className="ml-2 p-1 border rounded"
               type="text"
               value={item.name || ""}
               onChange={(e) => onNameChange(item.id, e.target.value)}
             />
           </label>
 
-          <label>
+          <label className="block mb-2">
             縦方向のサイズ (1-10):
             <input
+              className="ml-2 p-1 border rounded"
               type="number"
               value={item.rows}
               onChange={(e) =>
@@ -69,9 +81,10 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
             />
           </label>
 
-          <label>
+          <label className="block mb-2">
             横方向のサイズ (1-10):
             <input
+              className="ml-2 p-1 border rounded"
               type="number"
               value={item.columns}
               onChange={(e) =>
@@ -83,9 +96,10 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
           </label>
         </>
       ) : (
-        <label>
+        <label className="block mb-2">
           文字:
           <input
+            className="ml-2 p-1 border rounded"
             type="text"
             value={item.char || ""}
             onChange={(e) => onCharChange(item.id, e.target.value)}

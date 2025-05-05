@@ -113,7 +113,7 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
   }, [matrices, canvasSize]);
 
   return (
-    <div className="border">
+    <div className="h-fit w-fit border border-gray-400 rounded-lg p-4">
       <canvas
         ref={canvasRef}
         width={canvasSize.width}
