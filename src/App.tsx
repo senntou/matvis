@@ -1,27 +1,32 @@
 import { useState } from "react";
-import { Matrix } from "./types/types";
 import OutputHandler from "./components/OutputHandler";
 import MatrixInput from "./components/MatrixInput";
+import { MatrixOrChar } from "./types/types";
 
 function App() {
-  const [matrices, setMatrices] = useState<Matrix[]>([]);
-  const [matricesOutput, setMatricesOutput] = useState<Matrix[]>([]);
+  const [items, setItems] = useState<MatrixOrChar[]>([]);
+  const [itemsOutput, setItemsOutput] = useState<MatrixOrChar[]>([]);
   const [nextId, setNextId] = useState<number>(1);
 
   const handleAddMatrix = () => {
-    setMatrices([...matrices, { id: nextId, rows: 1, columns: 1 }]);
+    setItems([...items, { id: nextId, rows: 1, columns: 1 }]);
+    setNextId(nextId + 1);
+  };
+
+  const handleAddChar = () => {
+    setItems([...items, { id: nextId, char: "" }]);
     setNextId(nextId + 1);
   };
 
   const handleOutput = () => {
     console.log("出力処理");
-    setMatricesOutput(matrices);
+    setItemsOutput(items);
   };
 
   const handleNameChange = (id: number, name: string) => {
-    setMatrices(
-      matrices.map((matrix) =>
-        matrix.id === id ? { ...matrix, name } : matrix,
+    setItems(
+      items.map((item) =>
+        "rows" in item && item.id === id ? { ...item, name } : item,
       ),
     );
   };
@@ -31,28 +36,46 @@ function App() {
     type: "rows" | "columns",
     value: number,
   ) => {
-    setMatrices(
-      matrices.map((matrix) =>
-        matrix.id === id ? { ...matrix, [type]: value } : matrix,
+    setItems(
+      items.map((item) =>
+        "rows" in item && item.id === id ? { ...item, [type]: value } : item,
+      ),
+    );
+  };
+
+  const handleCharChange = (id: number, char: string) => {
+    setItems(
+      items.map((item) =>
+        "char" in item && item.id === id ? { ...item, char } : item,
       ),
     );
   };
 
   return (
-    <div>
-      <h1>Vite + React</h1>
+    <div className="App">
+      <h1>行列ビジュアライザー</h1>
       <button onClick={handleAddMatrix}>行列を追加</button>
+      <button onClick={handleAddChar}>文字を追加</button>
       <button onClick={handleOutput}>出力</button>
-      {matrices.map((matrix) => (
-        <MatrixInput
-          key={matrix.id}
-          matrix={matrix}
-          onSizeChange={handleSizeChange}
-          onNameChange={handleNameChange}
-          onEnter={handleOutput}
-        />
+      {items.map((item) => (
+        <>
+          <MatrixInput
+            key={item.id}
+            item={item}
+            onSizeChange={handleSizeChange}
+            onNameChange={handleNameChange}
+            onCharChange={handleCharChange}
+            onEnter={handleOutput}
+          />
+          <button
+            onClick={() => setItems(items.filter((i) => i.id !== item.id))}
+          >
+            削除
+          </button>
+        </>
       ))}
-      {matricesOutput.length > 0 && <OutputHandler matrices={matricesOutput} />}
+      <h2>出力</h2>
+      {itemsOutput.length > 0 && <OutputHandler matrices={itemsOutput} />}
     </div>
   );
 }
