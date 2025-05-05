@@ -6,11 +6,11 @@ interface OutputHandlerProps {
 }
 
 const RECT_MARGIN = 5;
-const RECT_SCALE = 50;
-const TEXT_FONT = "bold 16px Arial";
+const RECT_SCALE = 100;
+const TEXT_FONT = "bold 48px Arial";
 const TEXT_COLOR = "black";
 const RECT_COLOR = "black";
-const CHAR_FONT = "bold 24px Arial"; // Char用のフォント
+const CHAR_FONT = "bold 64px Arial"; // Char用のフォント
 
 const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
