@@ -112,13 +112,30 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
     });
   }, [matrices, canvasSize]);
 
+  const handleOutput = () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const link = document.createElement("a");
+    link.download = "output.png";
+    link.href = canvas.toDataURL();
+    link.click();
+  };
+
   return (
     <div className="h-fit w-fit border border-gray-400 rounded-lg p-4">
       <canvas
+        className="sm:w-full w-80"
         ref={canvasRef}
         width={canvasSize.width}
         height={canvasSize.height}
       />
+      <button
+        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+        onClick={handleOutput}
+      >
+        ダウンロード
+      </button>
     </div>
   );
 };
