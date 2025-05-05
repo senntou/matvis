@@ -10,7 +10,6 @@ interface MatrixInputProps {
     id: number,
     alignment: "top" | "middle" | "bottom",
   ) => void;
-  onEnter: () => void;
   onDelete: () => void;
 }
 
@@ -20,15 +19,8 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
   onNameChange,
   onCharChange,
   onAlignmentChange,
-  onEnter,
   onDelete,
 }) => {
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      onEnter();
-    }
-  };
-
   return (
     <div className="matrix-input">
       <div className="matrix-input-header">
@@ -40,7 +32,12 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
         垂直方向の配置:
         <select
           value={item.verticalAlignment || "middle"}
-          onChange={(e) => onAlignmentChange(item.id, e.target.value)}
+          onChange={(e) =>
+            onAlignmentChange(
+              item.id,
+              e.target.value as "top" | "middle" | "bottom",
+            )
+          }
         >
           <option value="top">上</option>
           <option value="middle">中央</option>
@@ -56,7 +53,6 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
               type="text"
               value={item.name || ""}
               onChange={(e) => onNameChange(item.id, e.target.value)}
-              onKeyDown={handleKeyDown}
             />
           </label>
 
@@ -70,7 +66,6 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
               }
               min="1"
               max="10"
-              onKeyDown={handleKeyDown}
             />
           </label>
 
@@ -84,7 +79,6 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
               }
               min="1"
               max="10"
-              onKeyDown={handleKeyDown}
             />
           </label>
         </>
@@ -95,7 +89,6 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
             type="text"
             value={item.char || ""}
             onChange={(e) => onCharChange(item.id, e.target.value)}
-            onKeyDown={handleKeyDown}
           />
         </label>
       )}
