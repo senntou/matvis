@@ -10,6 +10,7 @@ interface MatrixInputProps {
     id: number,
     alignment: "top" | "middle" | "bottom",
   ) => void;
+  onFontSizeChange: (id: number, fontSize: number) => void;
   onDelete: () => void;
 }
 
@@ -19,6 +20,7 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
   onNameChange,
   onCharChange,
   onAlignmentChange,
+  onFontSizeChange,
   onDelete,
 }) => {
   return (
@@ -36,6 +38,18 @@ const MatrixInput: React.FC<MatrixInputProps> = ({
           削除
         </button>
       </div>
+
+      <label className="block mb-2">
+        フォントサイズ:
+        <input
+          className="ml-2 p-1 border rounded"
+          type="number"
+          value={item.fontSize || 48}
+          onChange={(e) => onFontSizeChange(item.id, parseInt(e.target.value, 10))}
+          min="8"
+          max="256"
+        />
+      </label>
 
       <label className="block mb-2">
         垂直方向の配置:

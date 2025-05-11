@@ -4,10 +4,10 @@ import MatrixInput from "./components/MatrixInput";
 import { MatrixOrChar } from "./types/types";
 
 const INITIAL_ITEMS: MatrixOrChar[] = [
-  { id: -1, rows: 4, columns: 4, name: "U" },
-  { id: -2, char: "=", verticalAlignment: "middle" },
-  { id: -3, rows: 4, columns: 2, name: "V" },
-  { id: -4, rows: 2, columns: 4, name: "W", verticalAlignment: "top" },
+  { id: -1, rows: 4, columns: 4, name: "U", fontSize: 48 },
+  { id: -2, char: "=", verticalAlignment: "middle", fontSize: 64 },
+  { id: -3, rows: 4, columns: 2, name: "V", fontSize: 48 },
+  { id: -4, rows: 2, columns: 4, name: "W", verticalAlignment: "top", fontSize: 48 },
 ];
 
 function App() {
@@ -15,12 +15,12 @@ function App() {
   const [nextId, setNextId] = useState<number>(1);
 
   const handleAddMatrix = () => {
-    setItems([...items, { id: nextId, rows: 1, columns: 1 }]);
+    setItems([...items, { id: nextId, rows: 1, columns: 1, fontSize: 16 }]);
     setNextId(nextId + 1);
   };
 
   const handleAddChar = () => {
-    setItems([...items, { id: nextId, char: "" }]);
+    setItems([...items, { id: nextId, char: "", fontSize: 16 }]);
     setNextId(nextId + 1);
   };
 
@@ -65,6 +65,14 @@ function App() {
     );
   };
 
+  const handleFontSizeChange = (id: number, fontSize: number) => {
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, fontSize } : item,
+      ),
+    );
+  };
+
   return (
     <div className="App">
       <h1 className="text-3xl font-bold text-center my-4">
@@ -93,6 +101,7 @@ function App() {
             onNameChange={handleNameChange}
             onCharChange={handleCharChange}
             onAlignmentChange={handleAlignmentChange}
+            onFontSizeChange={handleFontSizeChange}
             onDelete={() => setItems(items.filter((i) => i.id !== item.id))}
           />
         ))}

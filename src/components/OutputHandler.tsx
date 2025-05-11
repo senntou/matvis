@@ -7,10 +7,9 @@ interface OutputHandlerProps {
 
 const RECT_MARGIN = 5;
 const RECT_SCALE = 100;
-const TEXT_FONT = "bold 48px Arial";
+const DEFAULT_FONT_SIZE = 48;
 const TEXT_COLOR = "black";
 const RECT_COLOR = "black";
-const CHAR_FONT = "bold 64px Arial"; // Char用のフォント
 
 const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -74,7 +73,8 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
         ctx.strokeRect(currentX, y, rectWidth, rectHeight);
 
         ctx.fillStyle = TEXT_COLOR;
-        ctx.font = TEXT_FONT;
+        const fontSize = item.fontSize || DEFAULT_FONT_SIZE;
+        ctx.font = `bold ${fontSize}px Arial`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(
@@ -102,7 +102,8 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
         // ctx.strokeRect(currentX, y, boxWidth, boxHeight);
 
         ctx.fillStyle = TEXT_COLOR;
-        ctx.font = CHAR_FONT;
+        const fontSize = item.fontSize || DEFAULT_FONT_SIZE;
+        ctx.font = `bold ${fontSize}px Arial`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.fillText(item.char, currentX + boxWidth / 2, y + boxHeight / 2);
