@@ -13,6 +13,7 @@ const INITIAL_ITEMS: MatrixOrChar[] = [
 function App() {
   const [items, setItems] = useState<MatrixOrChar[]>(INITIAL_ITEMS);
   const [nextId, setNextId] = useState<number>(1);
+  const [margin, setMargin] = useState<number>(10); // 行列間のマージンを管理
 
   const handleAddMatrix = () => {
     setItems([...items, { id: nextId, rows: 1, columns: 1, fontSize: 16 }]);
@@ -92,6 +93,18 @@ function App() {
         文字を追加
       </button>
 
+      <label className="block mb-4">
+        行列間のマージン (px):
+        <input
+          className="ml-2 p-1 border rounded"
+          type="number"
+          value={margin}
+          onChange={(e) => setMargin(parseInt(e.target.value, 10))}
+          min="0"
+          max="100"
+        />
+      </label>
+
       <div className="flex gap-1">
         {items.map((item) => (
           <MatrixInput
@@ -107,7 +120,7 @@ function App() {
         ))}
       </div>
       <h2 className="text-2xl font-bold my-4">出力</h2>
-      {items.length > 0 && <OutputHandler matrices={items} />}
+      {items.length > 0 && <OutputHandler matrices={items} margin={margin} />}
     </div>
   );
 }

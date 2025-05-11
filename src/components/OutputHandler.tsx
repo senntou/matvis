@@ -3,6 +3,7 @@ import { MatrixOrChar } from "../types/types";
 
 interface OutputHandlerProps {
   matrices: MatrixOrChar[];
+  margin: number; // 行列間のマージンを追加
 }
 
 const RECT_MARGIN = 5;
@@ -11,26 +12,26 @@ const DEFAULT_FONT_SIZE = 48;
 const TEXT_COLOR = "black";
 const RECT_COLOR = "black";
 
-const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
+const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices, margin }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 });
 
   useEffect(() => {
     if (matrices.length === 0) return;
 
-    let totalWidth = RECT_MARGIN;
+    let totalWidth = RECT_MARGIN; // 初期値を元に戻す
     let maxHeight = 0;
 
     matrices.forEach((item) => {
       if ("rows" in item && "columns" in item) {
         const rectWidth = item.columns * RECT_SCALE;
         const rectHeight = item.rows * RECT_SCALE;
-        totalWidth += rectWidth + RECT_MARGIN;
+        totalWidth += rectWidth + margin; // 行列間のマージンを適用
         maxHeight = Math.max(maxHeight, rectHeight);
       } else if ("char" in item) {
         const charWidth = RECT_SCALE; // 固定サイズで表示
         const charHeight = RECT_SCALE;
-        totalWidth += charWidth + RECT_MARGIN;
+        totalWidth += charWidth + margin; // 行列間のマージンを適用
         maxHeight = Math.max(maxHeight, charHeight);
       }
     });
@@ -39,7 +40,7 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
       width: totalWidth,
       height: maxHeight + 2 * RECT_MARGIN,
     });
-  }, [matrices]);
+  }, [matrices, margin]); // marginを依存関係に追加
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -50,7 +51,7 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    let currentX = RECT_MARGIN;
+    let currentX = RECT_MARGIN; // 初期値を元に戻す
     const centerY = canvasSize.height / 2;
 
     matrices.forEach((item, index) => {
@@ -83,7 +84,7 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
           y + rectHeight / 2,
         );
 
-        currentX += rectWidth + RECT_MARGIN;
+        currentX += rectWidth + margin; // 行列間のマージンを適用
       } else if ("char" in item) {
         const boxWidth = RECT_SCALE;
         const boxHeight = RECT_SCALE;
@@ -108,10 +109,10 @@ const OutputHandler: React.FC<OutputHandlerProps> = ({ matrices }) => {
         ctx.textBaseline = "middle";
         ctx.fillText(item.char, currentX + boxWidth / 2, y + boxHeight / 2);
 
-        currentX += boxWidth + RECT_MARGIN;
+        currentX += boxWidth + margin; // 行列間のマージンを適用
       }
     });
-  }, [matrices, canvasSize]);
+  }, [matrices, canvasSize, margin]); // marginを依存関係に追加
 
   const handleOutput = () => {
     const canvas = canvasRef.current;
